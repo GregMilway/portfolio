@@ -1,14 +1,17 @@
 from django.shortcuts import get_object_or_404, render
+from django.views.generic import DetailView, ListView
 
 from .models import Job
 
 
 # Create your views here.
-def home(request):
-    jobs = Job.objects
-    return render(request, "jobs/home.html", {"jobs": jobs})
+class HomeView(ListView):
+    model = Job
+    context_object_name = "jobs"
+    template_name = "jobs/home.html"
 
 
-def detail(request, job_id):
-    job_detail = get_object_or_404(Job, pk=job_id)
-    return render(request, "jobs/detail.html", {"job": job_detail})
+class JobDetailView(DetailView):
+    model = Job
+    context_object_name = "job"
+    template_name = "jobs/detail.html"
